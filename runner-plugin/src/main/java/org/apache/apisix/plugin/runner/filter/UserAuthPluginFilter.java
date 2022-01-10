@@ -50,6 +50,8 @@ public class UserAuthPluginFilter implements PluginFilter {
                         throw new BasicException("request rule not found");
                 }
             }
+            // rewrite request uri
+            rewriteUri(request, 2);
 
         } catch (BasicException e) {
             Gson gson = new GsonBuilder().serializeNulls().create();
@@ -62,9 +64,6 @@ public class UserAuthPluginFilter implements PluginFilter {
             response.setStatusCode(result.getCode());
             response.setBody(gson.toJson(result));
         }
-
-        // rewrite request uri
-        rewriteUri(request, 2);
 
         chain.filter(request, response);
     }
