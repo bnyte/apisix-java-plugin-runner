@@ -17,11 +17,13 @@
 
 package org.apache.apisix.plugin.runner;
 
+import com.dtflys.forest.springboot.annotation.ForestScan;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
 @SpringBootApplication
+@ForestScan("org.apache.apisix.plugin.runner.forest")
 public class PluginRunnerApplication {
     
     public static void main(String[] args) {

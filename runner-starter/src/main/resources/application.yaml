@@ -21,3 +21,8 @@ cache.config:
 
 socket:
   file: ${APISIX_LISTEN_ADDRESS}
+forest:
+  log-enabled: true
+  log-request: true
+  log-response-status: true
+  log-response-content: true
