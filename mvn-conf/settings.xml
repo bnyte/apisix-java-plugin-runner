@@ -158,9 +158,9 @@ under the License.
     </mirror>
      -->
     <mirror>
-      <id>maven-default-http-blocker</id>
-      <mirrorOf>external:http:*</mirrorOf>
-      <name>Pseudo repository to mirror external repositories initially using HTTP.</name>
+      <id>nexus-aliyun</id>
+      <mirrorOf>central</mirrorOf>
+      <name>Nexus aliyun</name>
       <url>https://maven.aliyun.com/repository/central</url>
       <blocked>true</blocked>
     </mirror>
