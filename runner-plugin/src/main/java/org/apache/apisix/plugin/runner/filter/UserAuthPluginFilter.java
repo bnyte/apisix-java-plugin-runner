@@ -55,16 +55,11 @@ public class UserAuthPluginFilter implements PluginFilter {
 
         } catch (BasicException e) {
             Gson gson = new GsonBuilder().serializeNulls().create();
-            R<Object> r = R.error();
-            r.setCode(e.getCode());
-            r.setMessage(e.getMessage());
             response.setStatusCode(e.getCode());
-            response.setBody(gson.toJson(r));
+            response.setBody(gson.toJson(R.error().code(e.getCode()).message(e.getMessage())));
         } catch (Exception e) {
             Gson gson = new GsonBuilder().serializeNulls().create();
-            R<Object> error = R.error();
-            error.setCode(403);
-            error.setMessage(e.getMessage());
+            R<Object> error = R.error().message(e.getMessage()).code(403);
             response.setStatusCode(error.getCode());
             response.setBody(gson.toJson(error));
         }
