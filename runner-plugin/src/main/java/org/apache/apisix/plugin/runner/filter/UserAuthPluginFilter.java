@@ -1,5 +1,7 @@
 package org.apache.apisix.plugin.runner.filter;
 
+import com.bnyte.xuni.http.reactive.web.R;
+import com.bnyte.xuni.http.reactive.web.Status;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.apisix.plugin.runner.HttpRequest;
@@ -8,8 +10,6 @@ import org.apache.apisix.plugin.runner.entity.User;
 import org.apache.apisix.plugin.runner.exception.BasicException;
 import org.apache.apisix.plugin.runner.forest.SsoServiceClient;
 import org.apache.apisix.plugin.runner.pojo.RequestRoute;
-import org.apache.apisix.plugin.runner.response.R;
-import org.apache.apisix.plugin.runner.response.RDesc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,14 +55,13 @@ public class UserAuthPluginFilter implements PluginFilter {
 
         } catch (BasicException e) {
             Gson gson = new GsonBuilder().serializeNulls().create();
-            R<Object> result = new R<>().error().code(e.getCode()).msg(e.getMessage());
             response.setStatusCode(e.getCode());
-            response.setBody(gson.toJson(result));
+            response.setBody(gson.toJson(R.error().code(e.getCode()).message(e.getMessage())));
         } catch (Exception e) {
             Gson gson = new GsonBuilder().serializeNulls().create();
-            R<Object> result = new R<>().error().code(403).msg(e.getMessage());
-            response.setStatusCode(result.getCode());
-            response.setBody(gson.toJson(result));
+            R<Object> error = R.error().message(e.getMessage()).code(403);
+            response.setStatusCode(error.getCode());
+            response.setBody(gson.toJson(error));
         }
 
         chain.filter(request, response);
@@ -105,8 +104,8 @@ public class UserAuthPluginFilter implements PluginFilter {
         } else {
             R<User> authorize = userServiceClient.authorize(token);
             LOGGER.info("[AuthPluginFilter] current request token : {} , authorize result {}", token, authorize);
-            if (!authorize.getCode().equals(RDesc.ok.getCode())) {
-                throw new BasicException(401, authorize.getMsg());
+            if (!authorize.getCode().equals(Status.ok.getCode())) {
+                throw new BasicException(401, authorize.getMessage());
             } else {
                 request.setHeader("userId", authorize.getData().getId());
                 LOGGER.info("[AuthPluginFilter] rewrite heater is '{}'", new GsonBuilder().serializeNulls().create().toJson(request.getHeader()));

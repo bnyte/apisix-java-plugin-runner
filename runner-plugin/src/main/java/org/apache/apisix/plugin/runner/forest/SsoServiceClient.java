@@ -1,10 +1,10 @@
 package org.apache.apisix.plugin.runner.forest;
 
+import com.bnyte.xuni.http.reactive.web.R;
 import com.dtflys.forest.annotation.BaseRequest;
 import com.dtflys.forest.annotation.GetRequest;
 import com.dtflys.forest.annotation.Var;
 import org.apache.apisix.plugin.runner.entity.User;
-import org.apache.apisix.plugin.runner.response.R;
 
 @BaseRequest(baseURL = "https://sso.bnyte.com")
 public interface SsoServiceClient {
