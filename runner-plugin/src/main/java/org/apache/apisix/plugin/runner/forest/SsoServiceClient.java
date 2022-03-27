@@ -6,7 +6,7 @@ import com.dtflys.forest.annotation.Var;
 import org.apache.apisix.plugin.runner.entity.User;
 import org.apache.apisix.plugin.runner.response.R;
 
-@BaseRequest(baseURL = "http://120.79.206.111:6601")
+@BaseRequest(baseURL = "https://sso.bnyte.com")
 public interface SsoServiceClient {
 
     /**

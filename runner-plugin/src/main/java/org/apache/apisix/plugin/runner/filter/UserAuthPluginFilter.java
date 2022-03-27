@@ -84,6 +84,7 @@ public class UserAuthPluginFilter implements PluginFilter {
         request.setPath(path);
 
         LOGGER.info("[AuthPluginFilter] rewrite path is '" + path + "'");
+        LOGGER.info("[AuthPluginFilter] rewrite headers is '" + new Gson().toJson(request.getHeader()) + "'");
     }
 
     private void v2Auth(RequestRoute requestRoute, HttpRequest request, HttpResponse response) {
@@ -107,7 +108,7 @@ public class UserAuthPluginFilter implements PluginFilter {
             if (!authorize.getCode().equals(RDesc.ok.getCode())) {
                 throw new BasicException(401, authorize.getMsg());
             } else {
-                request.setHeader("id", authorize.getData().getId());
+                request.setHeader("userId", authorize.getData().getId());
                 LOGGER.info("[AuthPluginFilter] rewrite heater is '{}'", new GsonBuilder().serializeNulls().create().toJson(request.getHeader()));
             }
         }
